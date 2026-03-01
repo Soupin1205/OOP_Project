@@ -1,61 +1,58 @@
-class Main {
+// Main class to run the program
+public class Main {
     public static void main(String[] args) {
-
         System.out.println("Welcome to Online Food Order System");
         System.out.println("================================================");
 
-        // Create menu
+        // Create Menu
         Menu menu = new Menu("Online Food Menu", 10);
 
+        // Create Food Items
         FoodItem burger = new FoodItem("Burger", 5.0, "Fast Food");
         FoodItem pizza = new FoodItem("Pizza", 8.0, "Fast Food");
 
         menu.addFood(burger);
         menu.addFood(pizza);
 
-        // Show menu
+        // Show Menu
         System.out.println("\nToday's Menu:");
         menu.printMenu();
 
-        // Create customer
+        // Create Customer
         Customer customer = new Customer("Dane", true);
-        System.out.println("\nCustomer: " + customer.name);
-        System.out.println("Membership: " + (customer.member ? "YES" : "NO"));
+        customer.showInfo();
 
         // Add to cart
         System.out.println("\nAdding items to cart...");
-        customer.cart.addItem(burger, 2);
+        customer.getCart().addItem(burger, 2);
         System.out.println("✓ Burger x2 added to cart");
 
-        // Cart summary
+        // Cart Summary
         System.out.println("\nCart Summary:");
-        System.out.println("Burger x2 -> $" + (burger.price * 2));
-        System.out.println("Total: $" + customer.cart.totalPrice);
+        System.out.println("Burger x2 -> $" + (burger.getPrice() * 2));
+        System.out.println("Total: $" + customer.getCart().getTotalPrice());
 
-        // Place order
+        // Place Order
         System.out.println("\nPlacing order...");
         customer.placeOrder();
-        System.out.println("Order created successfully!");
 
-        // Receipt
+        // Print Receipt
         System.out.println("\n===============Order Receipt================");
-        System.out.println("Customer: " + customer.name);
+        System.out.println("Customer: " + customer.getName());
         System.out.println("Items:");
-        System.out.println("- Burger x2   $" + burger.price + " each");
-        System.out.println("Total Amount: $" + customer.order.getTotal());
-        System.out.println("==============================================");
+        System.out.println("- Burger x2   $" + burger.getPrice() + " each");
+        System.out.println("Total Amount: $" + customer.getOrder().getTotal());
+        System.out.println("============================================");
 
-        // Menu price change (real-life scenario)
+        // Price change example
         System.out.println("\nMenu price update (System Admin):");
-        burger.price = 7.0;
-        System.out.println("Burger price changed to $" + burger.price);
+        burger.setPrice(7.0);
+        System.out.println("Burger price changed to $" + burger.getPrice());
 
-        // Snapshot proof (real-life explanation)
-        System.out.println("\nChecking previous order total...");
-        System.out.println("Previous Order Total: $" + customer.order.getTotal());
-        System.out.println("(Note: Order price did NOT change)");
+        // Previous order total remains unchanged
+        System.out.println("\nPrevious Order Total: $" + customer.getOrder().getTotal());
 
-        // Null safety demo (real-life)
+        // Null safety demo
         System.out.println("\nSearching for item: Fried Rice");
         FoodItem notFound = menu.findFoodByName("Fried Rice");
         if (notFound == null) {
