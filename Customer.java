@@ -1,5 +1,3 @@
-// Customer class inherits from User
-// Represents a customer who can have a cart and place orders
 public class Customer extends User {
     private Cart cart;       // encapsulated cart
     private Order order;     // customer's order

@@ -1,13 +1,10 @@
-// Order class implements Payable
-// Represents a customer's order (snapshot)
 public class Order implements Payable {
-    private Customer customer;      // customer reference
-    private String[] itemNames;     // snapshot of item names
-    private double[] priceSnapshot; // snapshot of prices
-    private int[] qtySnapshot;      // snapshot of quantities
-    private int itemCount;          // number of items
+    private Customer customer;      
+    private String[] itemNames;     
+    private double[] priceSnapshot; 
+    private int[] qtySnapshot;      
+    private int itemCount;          
 
-    // Constructor creates snapshot from cart
     public Order(Customer customer, Cart cart) {
         this.customer = customer;
         itemCount = cart.getCount();
@@ -16,7 +13,6 @@ public class Order implements Payable {
         priceSnapshot = new double[itemCount];
         qtySnapshot = new int[itemCount];
 
-        // Copy data from cart (snapshot)
         for (int i = 0; i < itemCount; i++) {
             itemNames[i] = cart.getFoods()[i].getName();
             priceSnapshot[i] = cart.getFoods()[i].getPrice();
@@ -24,7 +20,6 @@ public class Order implements Payable {
         }
     }
 
-    // Calculate total amount
     @Override
     public double getTotal() {
         double total = 0;
@@ -32,5 +27,18 @@ public class Order implements Payable {
             total += priceSnapshot[i] * qtySnapshot[i];
         }
         return total;
+    }
+
+    //  Add these getters
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public String[] getItemNames() {
+        return itemNames;
+    }
+
+    public double[] getPriceSnapshot() {
+        return priceSnapshot;
     }
 }

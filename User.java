@@ -1,8 +1,6 @@
-// Abstract class User
-// Represents a generic user in the system (could be Customer, Admin, etc.)
 public abstract class User {
-    protected String name;       // user's name
-    protected boolean member;    // membership status
+    protected String name; 
+    protected boolean member;  
 
     // Constructor
     public User(String name, boolean member) {

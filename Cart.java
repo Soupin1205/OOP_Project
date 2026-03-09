@@ -1,12 +1,10 @@
-// Cart class
-// Represents a customer's shopping cart
 public class Cart {
-    private FoodItem[] foods;  // reference array of FoodItems
-    private int[] quantities;  // quantities for each item
-    private int count;         // number of items in cart
-    private double totalPrice; // total cart price
 
-    // Constructor with capacity
+    private FoodItem[] foods;
+    private int[] quantities;
+    private int count;
+    private double totalPrice;
+
     public Cart(int capacity) {
         foods = new FoodItem[capacity];
         quantities = new int[capacity];
@@ -14,17 +12,39 @@ public class Cart {
         totalPrice = 0;
     }
 
-    // Add item to cart
+    // Add item with quantity
     public void addItem(FoodItem food, int qty) {
-        foods[count] = food;           // store reference to food
-        quantities[count] = qty;       // store quantity
-        totalPrice += food.getPrice() * qty; // update total
+
+        if (count >= foods.length) {
+            System.out.println("Cart is full!");
+            return;
+        }
+
+        foods[count] = food;
+        quantities[count] = qty;
+        totalPrice += food.getPrice() * qty;
         count++;
     }
 
-    // Getters for encapsulation
-    public FoodItem[] getFoods() { return foods; }
-    public int[] getQuantities() { return quantities; }
-    public int getCount() { return count; }
-    public double getTotalPrice() { return totalPrice; }
+    // Method Overloading
+    public void addItem(FoodItem food) {
+        addItem(food, 1);
+    }
+
+    public FoodItem[] getFoods() {
+        return foods;
+    }
+
+    public int[] getQuantities() {
+        return quantities;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
 }
