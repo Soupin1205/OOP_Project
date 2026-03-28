@@ -1,3 +1,4 @@
+package src.models;
 public abstract class User {
     protected String name; 
     protected boolean member;  

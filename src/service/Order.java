@@ -1,13 +1,20 @@
+package src.service;
+import java.time.LocalDateTime;
+
+import src.models.Customer;
+
 public class Order implements Payable {
     private Customer customer;      
     private String[] itemNames;     
     private double[] priceSnapshot; 
     private int[] qtySnapshot;      
-    private int itemCount;          
+    private int itemCount;   
+    private LocalDateTime orderTime; // timestamp when order was placed       
 
     public Order(Customer customer, Cart cart) {
         this.customer = customer;
         itemCount = cart.getCount();
+        this.orderTime = LocalDateTime.now();
 
         itemNames = new String[itemCount];
         priceSnapshot = new double[itemCount];
@@ -28,6 +35,17 @@ public class Order implements Payable {
         }
         return total;
     }
+     // Print order details
+    public void printOrderInfo() {
+        System.out.println("Order for customer: " + customer.getName());
+        System.out.println("Order Time: " + orderTime);
+        System.out.println("Items:");
+        for (int i = 0; i < itemCount; i++) {
+            System.out.println("- " + itemNames[i] + " x" + qtySnapshot[i] 
+                               + " = $" + (priceSnapshot[i] * qtySnapshot[i]));
+        }
+        System.out.println("Total: $" + getTotal());
+    }
 
     //  Add these getters
     public int getItemCount() {
@@ -40,5 +58,11 @@ public class Order implements Payable {
 
     public double[] getPriceSnapshot() {
         return priceSnapshot;
+    }
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+     public int[] getQtySnapshot() {
+        return qtySnapshot;
     }
 }

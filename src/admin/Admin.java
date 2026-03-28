@@ -1,3 +1,7 @@
+package src.admin;
+import src.models.FoodItem;
+import src.models.User;
+
 public class Admin extends User {
 
     public Admin(String name, boolean member) {

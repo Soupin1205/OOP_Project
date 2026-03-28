@@ -1,3 +1,6 @@
+package src.service;
+import src.models.FoodItem;
+
 public class Menu {
     private FoodItem[] items;
     private int itemCount;
@@ -24,8 +27,28 @@ public class Menu {
     }
 
     public void printMenu() {
+        if (!open) {
+            System.out.println("Menu " + menuName + " is closed.");
+            return;
+        }
+        System.out.println("Menu: " + menuName);
         for (int i = 0; i < itemCount; i++) {
             System.out.println(items[i]);
         }
+    }
+    public void showMenuInfo() {
+    System.out.println("Menu Name: " + menuName);
+    System.out.println("Status: " + (open ? "Open" : "Closed"));
+    }
+    public void openMenu() {
+        open = true;
+    }
+
+    public void closeMenu() {
+        open = false;
+    }
+
+    public boolean isOpen() {
+        return open;
     }
 }

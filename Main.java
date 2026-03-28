@@ -1,3 +1,7 @@
+import src.models.Customer;
+import src.models.FoodItem;
+import src.service.Menu;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Online Food Order System");
@@ -30,9 +34,9 @@ public class Main {
 
         // Cart Summary before order
         System.out.println("\nCart Summary before placing order:");
-        System.out.println("Burger x2 -> $" + (burger.getPrice() * 2));
-        System.out.println("Pizza x1 -> $" + pizza.getPrice());
-        System.out.println("Total Cart: $" + customer.getCart().getTotalPrice());
+        System.out.printf("Burger x2 -> $%.2f\n", burger.getPrice() * 2);
+        System.out.printf("Pizza x1 -> $%.2f\n", pizza.getPrice());
+        System.out.printf("Total Cart: $%.2f\n", customer.getCart().getTotalPrice());
 
         // Place Order (snapshot of current prices)
         System.out.println("\nPlacing order...");
@@ -42,9 +46,13 @@ public class Main {
         System.out.println("\n===============Order Receipt================");
         System.out.println("Customer: " + customer.getName());
         System.out.println("Items:");
-        System.out.println("- Burger x2   $" + burger.getPrice() + " each");
-        System.out.println("- Pizza x1    $" + pizza.getPrice() + " each");
-        System.out.println("Total Amount: $" + customer.getOrder().getTotal());
+        for (int i = 0; i < customer.getOrder().getItemCount(); i++) {
+            System.out.printf("- %-10s x%-2d $%.2f each\n",
+                    customer.getOrder().getItemNames()[i],
+                    customer.getOrder().getQtySnapshot()[i],
+                    customer.getOrder().getPriceSnapshot()[i]);
+        }
+        System.out.printf("Total Amount: $%.2f\n", customer.getOrder().getTotal());
         System.out.println("============================================");
 
         // Price change example (Admin updates price)
@@ -60,23 +68,17 @@ public class Main {
         System.out.printf("%-10s %-5s %-10s %-10s %-10s %-10s\n",
                 "Item", "Qty", "Old Price", "New Price", "Old Total", "New Total");
         System.out.println("--------------------------------------------------------");
+         for (int i = 0; i < customer.getOrder().getItemCount(); i++) {
+            String name = customer.getOrder().getItemNames()[i];
+            int qty = customer.getOrder().getQtySnapshot()[i];
+            double oldPrice = customer.getOrder().getPriceSnapshot()[i];
 
-        FoodItem[] foods = customer.getCart().getFoods();
-        int[] qtys = customer.getCart().getQuantities();
+            // Get current price from menu
+            FoodItem food = menu.findFoodByName(name);
+            double newPrice = (food != null) ? food.getPrice() : oldPrice;
 
-        for (int i = 0; i < customer.getCart().getCount(); i++) {
-            double oldPrice = 0;
-            // find old price from order snapshot
-            for (int j = 0; j < customer.getOrder().getItemCount(); j++) {
-                if (customer.getOrder().getItemNames()[j].equals(foods[i].getName())) {
-                    oldPrice = customer.getOrder().getPriceSnapshot()[j];
-                    break;
-                }
-            }
-            double newPrice = foods[i].getPrice();
-            int qty = qtys[i];
             System.out.printf("%-10s %-5d $%-9.2f $%-9.2f $%-9.2f $%-9.2f\n",
-                    foods[i].getName(), qty, oldPrice, newPrice, oldPrice * qty, newPrice * qty);
+                    name, qty, oldPrice, newPrice, oldPrice * qty, newPrice * qty);
         }
 
         System.out.println("--------------------------------------------------------");

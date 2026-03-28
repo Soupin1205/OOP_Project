@@ -1,3 +1,4 @@
+package src.models;
 public class FoodItem {
     private String name;      
     private double price;     
@@ -29,7 +30,8 @@ public class FoodItem {
 
     @Override
     public String toString() {
-        return "FoodItem{name='" + name + "', price=" + price +
-               ", category='" + category + "', available=" + available + "}";
+    return name + " - $" + String.format("%.2f", price) 
+           + " (" + category + ") " 
+           + (available ? "[Available]" : "[Not Available]");
     }
 }

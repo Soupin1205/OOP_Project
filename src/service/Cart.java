@@ -1,3 +1,6 @@
+package src.service;
+import src.models.FoodItem;
+
 public class Cart {
 
     private FoodItem[] foods;
@@ -45,6 +48,15 @@ public class Cart {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+    // Clear the cart after order
+    public void clear() {
+        for (int i = 0; i < count; i++) {
+            foods[i] = null;      // remove reference
+            quantities[i] = 0;    // reset quantity
+        }
+        count = 0;
+        totalPrice = 0;
     }
 
 }
