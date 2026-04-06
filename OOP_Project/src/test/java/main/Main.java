@@ -7,7 +7,7 @@ import controller.FoodShopController;
 public class Main {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            FoodShopController controller = new FoodShopController("Online Food Shop", "Phnom Penh");
+            FoodShopController controller = new FoodShopController("ONLINE FOOD SHOP", "PHNOM PENH, CAMBODIA");
 
             System.out.println("========================================");
             System.out.println("   WELCOME TO " + controller.getShopName());

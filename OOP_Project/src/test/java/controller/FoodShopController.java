@@ -101,7 +101,7 @@ public class FoodShopController {
         if (admin.getName().equals(username) && admin.checkPassword(password)) {
             if (admin.isActive()) {
                 currentUser = admin;
-                setLastMessage("Welcome Admin " + admin.getName() + "!");
+                setLastMessage("Welcome " + admin.getName() + "!");
                 return;
             }
         }
