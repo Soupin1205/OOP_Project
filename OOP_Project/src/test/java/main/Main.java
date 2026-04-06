@@ -1,133 +1,147 @@
 package main;
-import controller.FoodShopController;
+
 import java.util.Scanner;
 
+import controller.FoodShopController;
+
 public class Main {
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        FoodShopController controller = new FoodShopController("CADT Digital Canteen", "Phnom Penh");
+        try (Scanner scanner = new Scanner(System.in)) {
+            FoodShopController controller = new FoodShopController("Online Food Shop", "Phnom Penh");
 
-        System.out.println("========================================");
-        System.out.println("   WELCOME TO " + controller.getShopName());
-        System.out.println("   Address: " + controller.getAddress());
-        System.out.println("========================================");
-        System.out.println(controller.getLastMessage());
+            System.out.println("========================================");
+            System.out.println("   WELCOME TO " + controller.getShopName());
+            System.out.println("   Address: " + controller.getAddress());
+            System.out.println("========================================");
+            System.out.println(controller.getLastMessage());
 
-        int choice;
-        do {
-            if (!controller.isLoggedIn()) {
-                printMainMenu();
-                System.out.print("Choose: ");
-                choice = getIntInput(scanner);
-                scanner.nextLine();
+            int choice;
+            do {
+                if (!controller.isLoggedIn()) {
+                    printMainMenu();
+                    System.out.print("Choose: ");
+                    choice = getIntInput(scanner);
+                    scanner.nextLine();
 
-                switch (choice) {
-                    case 1:
-                        System.out.print("Username/Phone: ");
-                        String username = scanner.nextLine();
-                        System.out.print("Password: ");
-                        String password = scanner.nextLine();
-                        controller.login(username, password);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 2:
-                        controller.viewMenu();
-                        break;
-                    case 3:
-                        System.out.print("Enter your phone number: ");
-                        String phone = scanner.nextLine();
-                        System.out.print("Enter your name: ");
-                        String name = scanner.nextLine();
-                        controller.registerAsGuest(phone, name);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 0:
-                        System.out.println("Thank you for visiting " + controller.getShopName() + "!");
-                        System.out.println("Goodbye!");
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
-            } else {
-                printUserMenu(controller);
-                System.out.print("Choose: ");
-                choice = getIntInput(scanner);
-                scanner.nextLine();
-
-                switch (choice) {
-                    case 1:
-                        controller.viewMenu();
-                        break;
-                    case 2:
-                        System.out.print("Enter Food Name: ");
-                        String foodName = scanner.nextLine();
-                        System.out.print("Enter Quantity: ");
-                        int qty = getIntInput(scanner);
-                        scanner.nextLine();
-                        controller.addToCart(foodName, qty);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 3:
-                        controller.viewCart();
-                        break;
-                    case 4:
-                        System.out.print("Enter Food Name to remove: ");
-                        String removeItem = scanner.nextLine();
-                        controller.removeFromCart(removeItem);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 5:
-                        System.out.print("Enter Food Name: ");
-                        String updateItem = scanner.nextLine();
-                        System.out.print("Enter new quantity: ");
-                        int newQty = getIntInput(scanner);
-                        scanner.nextLine();
-                        controller.updateCartQuantity(updateItem, newQty);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 6:
-                        controller.placeOrder();
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 7:
-                        controller.viewOrderHistory();
-                        break;
-                    case 8:
-                        controller.viewLastReceipt();
-                        break;
-                    case 9:
-                        System.out.print("Enter amount to add: $");
-                        double amount = getDoubleInput(scanner);
-                        scanner.nextLine();
-                        controller.addBalance(amount);
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 10:
-                        controller.checkBalance();
-                        break;
-                    case 11:
-                        if (controller.isAdmin()) {
-                            showAdminMenu(controller, scanner);
-                        } else {
-                            System.out.println("Access denied! Admin only.");
+                    switch (choice) {
+                        case 1 -> {
+                            System.out.print("Username/Phone: ");
+                            String username = scanner.nextLine();
+                            System.out.print("Password: ");
+                            String password = scanner.nextLine();
+                            controller.login(username, password);
+                            System.out.println(controller.getLastMessage());
                         }
-                        break;
-                    case 12:
-                        controller.logout();
-                        System.out.println(controller.getLastMessage());
-                        break;
-                    case 0:
-                        System.out.println("Thank you for visiting " + controller.getShopName() + "!");
-                        System.out.println("Goodbye!");
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
-            }
-        } while (choice != 0);
+                        case 2 -> controller.viewMenu();
+                        case 3 -> {
+                            System.out.print("Enter your phone number: ");
+                            String phone = scanner.nextLine();
+                            System.out.print("Enter your name: ");
+                            String name = scanner.nextLine();
+                            controller.registerAsGuest(phone, name);
+                            System.out.println(controller.getLastMessage());
+                        }
+                        case 0 -> {
+                            System.out.println("Thank you for visiting " + controller.getShopName() + "!");
+                            System.out.println("Goodbye!");
+                        }
+                        default -> System.out.println("Invalid choice. Please try again.");
+                    }
+                } else {
+                    printUserMenu(controller);
+                    System.out.print("Choose: ");
+                    choice = getIntInput(scanner);
+                    scanner.nextLine();
 
-        scanner.close();
+                    switch (choice) {
+                        case 1 -> controller.viewMenu();
+                        case 2 -> {
+                            // For Customer: Add to Cart, For Admin: Admin Panel
+                            if (controller.getUserType().equals("Customer")) {
+                                System.out.print("Enter Food Name: ");
+                                String foodName = scanner.nextLine();
+                                System.out.print("Enter Quantity: ");
+                                int qty = getIntInput(scanner);
+                                scanner.nextLine();
+                                controller.addToCart(foodName, qty);
+                                System.out.println(controller.getLastMessage());
+                            } else if (controller.getUserType().equals("Admin")) {
+                                showAdminMenu(controller, scanner);
+                            }
+                        }
+                        case 3 -> {
+                            // For Customer: View Cart
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.viewCart();
+                            } else if (controller.getUserType().equals("Admin")) {
+                                controller.logout();
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 4 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                System.out.print("Enter Food Name to remove: ");
+                                String removeItem = scanner.nextLine();
+                                controller.removeFromCart(removeItem);
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 5 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                System.out.print("Enter Food Name: ");
+                                String updateItem = scanner.nextLine();
+                                System.out.print("Enter new quantity: ");
+                                int newQty = getIntInput(scanner);
+                                scanner.nextLine();
+                                controller.updateCartQuantity(updateItem, newQty);
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 6 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.placeOrder();
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 7 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.viewOrderHistory();
+                            }
+                        }
+                        case 8 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.viewLastReceipt();
+                            }
+                        }
+                        case 9 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                System.out.print("Enter amount to add: $");
+                                double amount = getDoubleInput(scanner);
+                                scanner.nextLine();
+                                controller.addBalance(amount);
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 10 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.checkBalance();
+                            }
+                        }
+                        case 11 -> {
+                            if (controller.getUserType().equals("Customer")) {
+                                controller.logout();
+                                System.out.println(controller.getLastMessage());
+                            }
+                        }
+                        case 0 -> {
+                            System.out.println("Thank you for visiting " + controller.getShopName() + "!");
+                            System.out.println("Goodbye!");
+                        }
+                        default -> System.out.println("Invalid choice. Please try again.");
+                    }
+                }
+            } while (choice != 0);
+        }
     }
 
     private static void printMainMenu() {
@@ -146,20 +160,27 @@ public class Main {
         System.out.println("           USER MENU (Logged In)");
         System.out.println("========================================");
         System.out.println("Logged in: " + controller.getCurrentUserName() +
-                          " (" + controller.getUserType() + " | " + controller.getMembershipInfo() + ")");
+                           " (" + controller.getUserType() + " | " + controller.getMembershipInfo() + ")");
         System.out.println("========================================");
-        System.out.println("1) View Menu");
-        System.out.println("2) Add Item to Cart");
-        System.out.println("3) View Cart");
-        System.out.println("4) Remove Item from Cart");
-        System.out.println("5) Update Cart Quantity");
-        System.out.println("6) Place Order");
-        System.out.println("7) View Order History");
-        System.out.println("8) View Last Receipt");
-        System.out.println("9) Add Balance");
-        System.out.println("10) Check Balance");
-        System.out.println("11) Admin Panel");
-        System.out.println("12) Logout");
+        
+        if (controller.getUserType().equals("Customer")) {
+            System.out.println("1) View Menu");
+            System.out.println("2) Add Item to Cart");
+            System.out.println("3) View Cart");
+            System.out.println("4) Remove Item from Cart");
+            System.out.println("5) Update Cart Quantity");
+            System.out.println("6) Place Order");
+            System.out.println("7) View Order History");
+            System.out.println("8) View Last Receipt");
+            System.out.println("9) Add Balance");
+            System.out.println("10) Check Balance");
+            System.out.println("11) Logout");
+        } else if (controller.getUserType().equals("Admin")) {
+            System.out.println("1) View Menu");
+            System.out.println("2) Admin Panel");
+            System.out.println("3) Logout");
+        }
+        
         System.out.println("0) Exit");
         System.out.println("========================================");
     }
@@ -175,9 +196,6 @@ public class Main {
             System.out.println("5) View All Customers");
             System.out.println("6) View All Orders");
             System.out.println("7) View System Statistics");
-            System.out.println("8) Create Staff Account");
-            System.out.println("9) View All Staff");
-            System.out.println("10) Update Staff Salary");
             System.out.println("0) Exit Admin Panel");
             System.out.println("==================================");
             System.out.print("Choose: ");
@@ -185,7 +203,7 @@ public class Main {
             scanner.nextLine();
 
             switch (adminChoice) {
-                case 1:
+                case 1 -> {
                     System.out.print("Food Name: ");
                     String name = scanner.nextLine();
                     System.out.print("Price: $");
@@ -195,8 +213,8 @@ public class Main {
                     String category = scanner.nextLine();
                     controller.addFoodItem(name, price, category);
                     System.out.println(controller.getLastMessage());
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.print("Food Name: ");
                     String foodName = scanner.nextLine();
                     System.out.print("New Price: $");
@@ -204,14 +222,14 @@ public class Main {
                     scanner.nextLine();
                     controller.updateFoodPrice(foodName, newPrice);
                     System.out.println(controller.getLastMessage());
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.print("Food Name: ");
                     String removeFood = scanner.nextLine();
                     controller.removeFoodItem(removeFood);
                     System.out.println(controller.getLastMessage());
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.print("Food Name: ");
                     String availFood = scanner.nextLine();
                     System.out.print("Available? (1=Yes, 0=No): ");
@@ -219,43 +237,10 @@ public class Main {
                     scanner.nextLine();
                     controller.setFoodAvailability(availFood, avail == 1);
                     System.out.println(controller.getLastMessage());
-                    break;
-                case 5:
-                    controller.viewAllCustomers();
-                    break;
-                case 6:
-                    controller.viewAllOrders();
-                    break;
-                case 7:
-                    controller.viewSystemStats();
-                    break;
-                case 8:
-                    System.out.print("Staff Name: ");
-                    String staffName = scanner.nextLine();
-                    System.out.print("Username: ");
-                    String username = scanner.nextLine();
-                    System.out.print("Password: ");
-                    String password = scanner.nextLine();
-                    System.out.print("Role (Admin/Manager/Staff): ");
-                    String role = scanner.nextLine();
-                    System.out.print("Salary: $");
-                    double salary = getDoubleInput(scanner);
-                    scanner.nextLine();
-                    controller.createStaff(staffName, username, password, role, salary);
-                    System.out.println(controller.getLastMessage());
-                    break;
-                case 9:
-                    controller.viewAllStaff();
-                    break;
-                case 10:
-                    System.out.print("Staff Username: ");
-                    String staffUser = scanner.nextLine();
-                    System.out.print("New Salary: $");
-                    double newSalary = getDoubleInput(scanner);
-                    scanner.nextLine();
-                    controller.updateStaffSalary(staffUser, newSalary);
-                    System.out.println(controller.getLastMessage());
-                    break;
+                }
+                case 5 -> controller.viewAllCustomers();
+                case 6 -> controller.viewAllOrders();
+                case 7 -> controller.viewSystemStats();
             }
         } while (adminChoice != 0);
     }

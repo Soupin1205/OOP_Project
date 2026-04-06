@@ -6,7 +6,7 @@ import java.util.Map;
 import model.FoodItem;
 
 public class Cart {
-    private Map<FoodItem, Integer> items;
+    private final Map<FoodItem, Integer> items;
 
     public Cart() {
         items = new LinkedHashMap<>();

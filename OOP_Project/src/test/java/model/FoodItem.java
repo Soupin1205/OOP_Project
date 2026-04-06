@@ -1,9 +1,9 @@
 package model;
 
 public class FoodItem {
-    private String itemId;
-    private String name;
-    private double price;
+    private final String itemId;
+    private final String name;
+    private double price;   
     private String category;
     private boolean available;
 
@@ -13,6 +13,11 @@ public class FoodItem {
         this.price = price;
         this.category = category;
         this.available = available;
+    }
+
+    public FoodItem(String itemId, String name) {
+        this.itemId = itemId;
+        this.name = name;
     }
 
     public String getItemId() { return itemId; }
@@ -33,15 +38,20 @@ public class FoodItem {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof FoodItem) {
-            return this.name.equalsIgnoreCase(((FoodItem) obj).name);
+        if (obj instanceof FoodItem fi) {
+            return this.name.equalsIgnoreCase(fi.name);
         }
         return false;
     }
 
     @Override
+    public int hashCode() {
+        return name.toLowerCase().hashCode();
+    }
+
+    @Override
     public String toString() {
-        String status = available ? "✓" : "✗";
+        String status = available ? "Available" : "Unavailable";
         return String.format("%-20s | %-10s | $%-8.2f | %s", name, category, price, status);
     }
 }

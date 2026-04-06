@@ -1,15 +1,14 @@
 package model;
 
 import logic.Cart;
-import model.Order;
 import java.util.*;
 
 public class Customer extends User {
-    private String phone;
+    private final String phone;
     private double balance;
     private MembershipType membership;
-    private Cart cart;
-    private List<Order> orderHistory;
+    private final Cart cart;
+    private final List<Order> orderHistory;
 
     public Customer(String customerId, String name, String phone, String password,
                     double balance, MembershipType membership) {
