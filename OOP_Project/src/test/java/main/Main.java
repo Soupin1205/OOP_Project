@@ -188,7 +188,7 @@ public class Main {
     private static void showAdminMenu(FoodShopController controller, Scanner scanner) {
         int adminChoice;
         do {
-            System.out.println("\n========== ADMIN PANEL ==========");
+            System.out.println("\n========== ADMIN ==========");
             System.out.println("1) Add New Food Item");
             System.out.println("2) Update Food Price");
             System.out.println("3) Remove Food Item");

@@ -47,9 +47,9 @@ public class FoodShopController {
         admin = new Admin("A001", "admin", "admin123", "SUPER");
 
         // Add default customers
-        customers.add(new Customer("C001", "Dane Smith", "011111111", "pass123", 100.0, MembershipType.GOLD));
-        customers.add(new Customer("C002", "Somen Doe", "022222222", "pass123", 50.0, MembershipType.SILVER));
-        customers.add(new Customer("C003", "Regular User", "033333333", "pass123", 30.0, MembershipType.NONE));
+        customers.add(new Customer("C0001", "Dane Smith", "011111111", "pass123", 100.0, MembershipType.GOLD));
+        customers.add(new Customer("C0002", "Somen Doe", "022222222", "pass123", 50.0, MembershipType.SILVER));
+        customers.add(new Customer("C0003", "Regular User", "033333333", "pass123", 30.0, MembershipType.NONE));
     }
 
     public String getShopName() { return shopName; }

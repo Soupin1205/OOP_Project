@@ -67,7 +67,7 @@ public class Order {
     // Chea Meiya - Formatted receipt
     public void printReceipt() {
         System.out.println("\n****************************************");
-        System.out.println("*        CADT DIGITAL CANTEN         *");
+        System.out.println("*        ONLINE FOOD SHOP         *");
         System.out.println("****************************************");
         System.out.println(" Order ID   : " + orderId);
         System.out.println(" Date/Time  : " + timestamp);

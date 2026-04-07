@@ -36,7 +36,7 @@ public class Menu {
     // Chea Meiya - Formatted menu display
     public void display() {
         System.out.println("\n========== FOOD MENU ==========");
-        System.out.printf("%-20s | %-10s | %-10s | %s\n", "Name", "Category", "Price", "Avail");
+        System.out.printf("%-20s | %-10s | %-10s | %s\n", "Name", "Category", "Price", "Available");
         System.out.println("--------------------------------------------------------");
         for (FoodItem item : items) {
             System.out.println(item);
